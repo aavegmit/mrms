@@ -1,0 +1,39 @@
+
+<div class="container">
+   <h1>Vaccines</h1>
+   <br/>
+   <%= render 'form' %>
+   <br/>
+   <br/>
+   <table id="vaccines-table" >
+      <thead>
+	 <tr>
+	    <th>Name</th>
+	    <th>Number of Doses</th>
+	    <th>Gaps</th>
+	    <th></th>
+	 </tr>
+      </thead>
+
+      <tbody>
+	 <% @vaccines.each do |vaccine| %>
+	    <tr>
+	       <td><%= vaccine.name %></td>
+	       <td><%= vaccine.no_of_doses %></td>
+	       <td><%= vaccine.doses_gaps %></td>
+	       <td><%= link_to 'Edit', edit_vaccine_path(vaccine) %> <%= link_to 'Destroy', vaccine, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+	    </tr>
+	 <% end %>
+      </tbody>
+   </table>
+</div>
+
+<br>
+
+<script type="text/javascript">
+   $(document).ready( function() {
+	 $('#vaccines-table').dataTable( {
+	    } );
+
+	 } );
+</script>

@@ -1,0 +1,42 @@
+<div class="container">
+   <h1>Patients</h1>
+   <br/>
+   <%= render 'form' %>
+   <br/>
+
+   <table id="patients-table">
+      <thead>
+	 <tr>
+	    <th>Id</th>
+	    <th>Name</th>
+	    <th>Email</th>
+	    <th>Phone</th>
+	    <th>Age</th>
+	    <th></th>
+	 </tr>
+      </thead>
+
+      <tbody>
+	 <% @patients.each do |patient| %>
+	    <tr>
+	       <td><%= patient.id %></td>
+	       <td><%= patient.first_name %> <%= patient.last_name %></td>
+	       <td><%= patient.email %></td> 
+	       <td><%= patient.phone_number %></td> 
+	       <td><%= distance_of_time_in_words(patient.dob, Time.now) %></td>
+	       <td><%= link_to 'Show', patient %> 
+		  <%= link_to 'Edit', edit_patient_path(patient) %> 
+		  <%= link_to 'Destroy', patient, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+	    </tr>
+	 <% end %>
+      </tbody>
+   </table>
+</div>
+
+<script type="text/javascript">
+   $(document).ready( function() {
+	 $('#patients-table').dataTable( {
+	    } );
+
+	 } );
+      </script>

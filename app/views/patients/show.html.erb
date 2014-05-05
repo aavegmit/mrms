@@ -1,0 +1,68 @@
+<p id="notice"><%= notice %></p>
+
+<div id="patient-vaccines-container" class="container">
+   <h2><%= @patient.first_name %> <%= @patient.last_name %></h2>
+
+   <table id="patient-vaccines-table">
+      <thead>
+	 <tr>
+	    <th>Vaccine</th>
+	    <% for doseNum in (1..@maxDoses) %>
+	       <th>Dose <%= doseNum %></th>
+	    <% end %>
+	 </tr>
+      </thead>
+
+      <tbody>
+	 <% @vaccines.each do |vaccine| %>
+	    <tr id="vaccine-<%= vaccine.id  %>">
+	       <td><%= vaccine.name %></td>
+	       <% for doseNum in (1..@maxDoses) %>
+		  <% if vaccine.no_of_doses >= doseNum %>
+		     <% if @vaccinesMap[vaccine.id] and @vaccinesMap[vaccine.id][doseNum] %>
+			<td class="editable" id="dose-<%= doseNum %>"><%= @vaccinesMap[vaccine.id][doseNum] %></td>
+		     <% else %>
+			<td class="editable newdose" id="dose-<%= doseNum %>"></td>
+		     <% end %>
+		  <% else %>
+		     <td class="nadose"></td>
+		  <% end %>
+	       <% end %>
+	    </tr>
+	 <% end %>
+      </tbody>
+   </table>
+   <br/>
+
+   <%= link_to 'Edit', edit_patient_path(@patient) %> |
+   <%= link_to 'Back', patients_path %>
+</div>
+
+<script type="text/javascript">
+   $(document).ready( function() {
+	 $.ajaxSetup({
+	      headers: {
+	          'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+	      }
+	 });
+
+	 var oTable = $('#patient-vaccines-table').dataTable();
+
+	 /* Apply the jEditable handlers to the table */
+	 $('td.editable', oTable.fnGetNodes()).editable( '/patients/vaccinate', {
+
+	    "callback": function( sValue, y ) {
+	       var aPos = oTable.fnGetPosition( this );
+	       oTable.fnUpdate( sValue, aPos[0], aPos[1] );
+	    },
+
+	    "submitdata": function ( value, settings ) {
+	       return {
+	       "patient_id" : <%= @patient.id %>,
+	       "vaccine_id": this.parentNode.getAttribute('id'),
+	       };
+	    },
+	    "height": "14px"
+	    } );
+	 } );
+      </script>
