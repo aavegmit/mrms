@@ -16,7 +16,7 @@ class Patient < ActiveRecord::Base
 				    :vaccine_id => vaccine_id,
 				    :doseNumber => doseNum).first_or_create
 	 if vaccine.nextDoseAfter(doseNum.to_i + 1)
-	    nextDate = Date.parse(date) + vaccine.nextDoseAfter(doseNum.to_i + 1).to_i.month
+	    nextDate = Date.parse(date) + vaccine.nextDoseAfter(doseNum.to_i + 1).to_i.week
 	 else
 	    nextDate = nil
 	 end
