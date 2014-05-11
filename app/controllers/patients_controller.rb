@@ -54,8 +54,9 @@ class PatientsController < ApplicationController
       newDate = params[:value] 
       patient = Patient.find(patient_id)
       if patient && patient.vaccinate(vaccine_id, dose_no, newDate)
-	 render :text => newDate
+	 render :json => {:success => true, :new_date => newDate, :html_id => params[:id]}
       else
+	 render :json => {:success => false}
       end
    end
 

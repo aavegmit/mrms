@@ -14,14 +14,14 @@ class Patient < ActiveRecord::Base
       if vaccine
 	 pv = PatientVaccines.where(:patient_id => self.id,
 				    :vaccine_id => vaccine_id,
-				    :doseNumber => doseNum).first_or_create
+				    :dose_number => doseNum).first_or_create
 	 if vaccine.nextDoseAfter(doseNum.to_i + 1)
 	    nextDate = Date.parse(date) + vaccine.nextDoseAfter(doseNum.to_i + 1).to_i.week
 	 else
 	    nextDate = nil
 	 end
-	 pv.update_attributes({:vaccinatedOn => date,
-			       :nextDoseOn   => nextDate })
+	 pv.update_attributes({:vaccinated_on => date,
+			       :next_dose_on   => nextDate })
       else
 	 return false
       end
@@ -32,7 +32,7 @@ class Patient < ActiveRecord::Base
       map = {}
       pv.each do |record|
 	 map[record[:vaccine_id]] = {} if map[record[:vaccine_id]].nil?
-	 map[record[:vaccine_id]].merge!( { record[:doseNumber] => record[:vaccinatedOn]})
+	 map[record[:vaccine_id]].merge!( { record[:dose_number] => record[:vaccinated_on]})
       end
       map
    end
