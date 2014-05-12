@@ -26,8 +26,8 @@
 			</td>
 		     <% else %>
 			<td>
-			   <span class="dose-editable-span newdose" id="vaccine<%= vaccine.id %>dose-<%= doseNum %>"></span>
-			   <input type="date"  class="dose-editable newdose" style="display:none" id="inputvaccine<%= vaccine.id %>dose-<%= doseNum %>">
+			   <span class="dose-editable-span newdose" id="vaccine<%= vaccine.id %>dose-<%= doseNum %>">edit</span>
+			   <input type="date"  class="dose-editable newdose" id="inputvaccine<%= vaccine.id %>dose-<%= doseNum %>" style="display:none">
 			</td>
 		     <% end %>
 		  <% else %>
@@ -60,25 +60,31 @@
 
 	 var oTable = $('#patient-vaccines-table').dataTable();
 	 $('.dose-editable').focusout(function(){
-	    $.ajax({
-                 url: '/patients/vaccinate',
-                 type: 'POST',
-                 data: { 
-                      'patient_id' : '<%= @patient.id %>',
-                      'id' : this.getAttribute('id'),
-                      'value' : $(this).val() , 
-                      'vaccine_id' : this.parentNode.parentNode.getAttribute('id')
-		      },
-                      success: function(data) {
-                           if(data.success) {
-                              $("#" + data.html_id).css('display', 'none') ;
-                              $("#" + data.html_id.substr(5)).text(data.new_date).css('display', '') ;
+	    if($(this).val() != '') {
+	         $.ajax({
+                      url: '/patients/vaccinate',
+                      type: 'POST',
+                      data: { 
+                           'patient_id' : '<%= @patient.id %>',
+                           'id' : this.getAttribute('id'),
+                           'value' : $(this).val() , 
+                           'vaccine_id' : this.parentNode.parentNode.getAttribute('id')
+	                   },
+                           success: function(data) {
+                                if(data.success) {
+                                   $("#" + data.html_id).css('display', 'none') ;
+                                   $("#" + data.html_id.substr(5)).text(data.new_date).css('display', '') ;
+                                }
+                                else {
+                                   console.log("Error in saving");
+                                }
                            }
-                           else {
-                              console.log("Error in saving");
-                           }
-                      }
-		 });
+	           });
+	    }
+	    else {
+	       $(this).css('display', 'none');
+	       $("#" + this.getAttribute('id').substr(5) ).text("edit").css('display', '');
+	    }
 	 }) ;
 
 	 } );
