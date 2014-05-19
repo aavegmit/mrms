@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Mrms</title>
-  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+   <head>
+      <title>Mrms</title>
+      <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
 
-  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
-   <%= link_to 'Home', '/' %>
+      <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+      <%= csrf_meta_tags %>
+   </head>
+   <body>
+      <%= link_to 'Home', '/' %>
 
-<%= yield %>
+      <p class="notice"><%= notice %></p>
+      <p class="alert"><%= alert %></p>
+      <%= yield %>
+      <%= render 'layouts/user_widget' %>
 
-</body>
+   </body>
 </html>

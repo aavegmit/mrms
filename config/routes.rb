@@ -1,4 +1,5 @@
 Mrms::Application.routes.draw do
+  devise_for :users, :controllers => {:registrations => "users"}
   resources :vaccines
 
 
@@ -11,6 +12,7 @@ Mrms::Application.routes.draw do
   resources :reminder do
      collection do
 	get 'index'
+	get 'getSMSReminders'
      end
   end
 

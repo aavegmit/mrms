@@ -2,7 +2,26 @@ module Reminder
    class << self
       include ::CommEngine
 
-      def dailyReminder
+      def sendEmailReminders
+	 patient_pending_vaccines, patients_info, vaccines_info = getDefaulters()
+
+	 patient_pending_vaccines.each do |pid, vaccines|
+	   PatientMailer.daily_reminder(patients_info[pid], vaccines_info, vaccines).deliver
+	 end
+      end
+
+      def getSMSReminders
+	 patient_pending_vaccines, patients_info, vaccines_info = getDefaulters()
+
+	 ret = Hash.new
+	 patient_pending_vaccines.each do |pid, vaccines|
+	   msg = getSMSText(patients_info[pid], vaccines_info, vaccines) 
+	   ret[patients_info[pid][:phone_number]] = msg
+	 end
+	 ret
+      end
+
+      def getDefaulters
 	 pv = PatientVaccines.select("max(dose_number) as dose_num, patient_id, vaccine_id").where("next_dose_on > ?", Date.today).group("vaccine_id, patient_id").to_a
 	 patient_id_map = pv.map {|u| u.patient_id}
 	 patient_id_map.uniq!
@@ -19,26 +38,10 @@ module Reminder
 	    patient_pending_vaccines[item.patient_id].push(item)
 	 end
 
-	 patient_pending_vaccines.each do |pid, vaccines|
-	   # msg = getText(:email, patients_info[pid], vaccines_info, vaccines) 
-	   # CommEngine.sendViaEmail(patients_info[pid][:email], msg)
-	   PatientMailer.daily_reminder(patients_info[pid], vaccines_info, vaccines).deliver
-	 end
+	 return patient_pending_vaccines, patients_info, vaccines_info
       end
 
       private
-      def getText(type,patient_info, vaccines_info, pvs)
-	 case type
-	 when :email
-	    getEmailText(patient_info, vaccines_info, pvs)
-	 when :sms
-	    getSMSText(patient_info, vaccines_info, pvs)
-	 end
-      end
-
-      def getEmailText(patient_info, vaccines_info, pvs)
-      end
-
       def getSMSText(patient_info, vaccines_info, pvs)
 	    vaccine_list = ''
 	    pvs.each do |v|
