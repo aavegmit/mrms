@@ -52,11 +52,20 @@ class PatientsController < ApplicationController
       vaccine_id = params[:vaccine_id].split("-")[1]
       dose_no = params[:id].split("-")[1]
       newDate = params[:value] 
+      if newDate == ""
+	 render :json => {:success => false, :html_id => params[:id]}
+	 return
+      end
       patient = Patient.find(patient_id)
-      if patient && patient.vaccinate(vaccine_id, dose_no, newDate)
-	 render :json => {:success => true, :new_date => newDate, :html_id => params[:id]}
+      if patient
+	 nextDate = patient.vaccinate(vaccine_id, dose_no, newDate)
+	 if nextDate
+	    render :json => {:success => true, :new_date => newDate, :html_id => params[:id], :next_date => nextDate.to_formatted_s(:rfc822)}
+	 else
+	    render :json => {:success => false, :html_id => params[:id]}
+	 end
       else
-	 render :json => {:success => false}
+	 render :json => {:success => false, :html_id => params[:id]}
       end
    end
 

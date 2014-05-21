@@ -22,6 +22,7 @@ class Patient < ActiveRecord::Base
 	 end
 	 pv.update_attributes({:vaccinated_on => date,
 			       :next_dose_on   => nextDate })
+	 return nextDate
       else
 	 return false
       end

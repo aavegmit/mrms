@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <div id="patient-vaccines-container" class="container">
    <h2><%= @patient.first_name %> <%= @patient.last_name %></h2>
 
@@ -76,10 +74,13 @@
                                     $("#" + data.html_id.substr(5)).text('edit').css('display', '') ;
 				} else {
                                     $("#" + data.html_id.substr(5)).text(data.new_date).css('display', '') ;
+				    $(".notice").text("Next schedule date is: " + data.next_date);
 				}
                              }
-                             else {
-                                console.log("Error in saving");
+			     else {
+			         $(".notice").text("");
+                                 $("#" + data.html_id).css('display', 'none') ;
+			         $("#" + data.html_id.substr(5)).text('edit').css('display', '') ;
                              }
                         }
 	        });
