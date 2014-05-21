@@ -9,11 +9,11 @@
    </head>
    <body>
       <%= link_to 'Home', '/' %>
+      <%= render 'layouts/user_widget' %>
 
       <p class="notice"><%= notice %></p>
       <p class="alert"><%= alert %></p>
       <%= yield %>
-      <%= render 'layouts/user_widget' %>
 
    </body>
 </html>
