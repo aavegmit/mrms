@@ -1,12 +1,12 @@
 <html>
    <body>
-      Hi <%= @patient.first_name %>,
+      Hi <%= @pvs[0][:first_name] %>,
 
       You are scheduled for the following vaccines:
 
       <ul>
 	 <% @pvs.each do |pv| %>
-	    <li><%= @vaccines_info[pv.vaccine_id][:name]  %></li>
+	    <li><%= pv[:name]  %></li>
 	 <% end %>
       </ul>
    </body>

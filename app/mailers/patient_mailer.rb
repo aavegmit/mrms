@@ -1,10 +1,8 @@
 class PatientMailer < ActionMailer::Base
   default from: "from@example.com"
 
-  def daily_reminder(patient_info, vaccines_info, pvs)
-     @patient = patient_info
-     @vaccines_info = vaccines_info
+  def daily_reminder(pvs)
      @pvs = pvs
-     mail :to => patient_info[:email], :from => "some@example.com", :subject => "Reminder"
+     mail :to => pvs[0][:email], :from => "some@example.com", :subject => "Reminder"
   end
 end
