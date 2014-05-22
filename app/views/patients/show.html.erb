@@ -62,8 +62,8 @@
                    url: '/patients/vaccinate',
                    type: 'POST',
                    data: { 
-                        'patient_id' : '<%= @patient.id %>',
-                        'id' : this.getAttribute('id'),
+                        'id' : '<%= @patient.id %>',
+                        'dose_no' : this.getAttribute('id'),
                         'value' : $(this).val() , 
                         'vaccine_id' : this.parentNode.parentNode.getAttribute('id')
 	                },

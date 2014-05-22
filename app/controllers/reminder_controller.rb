@@ -11,7 +11,21 @@ class ReminderController < ApplicationController
    #          ....
    #        }
    def getSMSReminders
+      if !params[:doctor_id]
+	 render :json => {:success => false, :error => "Invalid Params"}
+	 return
+      end
+
+      doctor = User.find(params[:doctor_id])
+
+      if doctor.nil?
+	 render :json => {:success => false, :error => "Invalid Params"}
+	 return
+      end
+
       defaulters = Reminder.getSMSReminders()
+      doctor.setLastReminderRun()
+
       render :json => {:success => true, :defaulters => defaulters}
    end
 end

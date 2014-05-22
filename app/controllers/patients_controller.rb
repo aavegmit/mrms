@@ -1,9 +1,10 @@
 class PatientsController < ApplicationController
-   before_action :set_patient, only: [:show, :edit, :update, :destroy]
+   before_action :set_patient, only: [:show, :edit, :update, :destroy, :vaccinate]
+   before_filter :doctorOwnsPatient?, only: [:show, :update, :destroy, :edit, :vaccinate]
 
    def index
       @patient = Patient.new
-      @patients = Patient.all
+      @patients = current_user.patients
    end
 
    def show
@@ -16,6 +17,7 @@ class PatientsController < ApplicationController
    end
 
    def create
+      params[:patient][:doctor_id] = current_user.id unless params[:patient].nil?
       @patient = Patient.new(patient_params)
 
       if @patient.save
@@ -47,36 +49,44 @@ class PatientsController < ApplicationController
    end
 
    def vaccinate
-      # patient_id, vaccine_id, doseNumber , date => value
-      patient_id = params[:patient_id]
+      # vaccine_id, doseNumber , date => value
       vaccine_id = params[:vaccine_id].split("-")[1]
-      dose_no = params[:id].split("-")[1]
+      dose_no = params[:dose_no].split("-")[1]
       newDate = params[:value] 
-      if newDate == ""
-	 render :json => {:success => false, :html_id => params[:id]}
+
+      if newDate == "" 
+	 render :json => {:success => false, :html_id => params[:dose_no]}
 	 return
       end
-      patient = Patient.find(patient_id)
-      if patient
-	 nextDate = patient.vaccinate(vaccine_id, dose_no, newDate)
-	 if nextDate
-	    render :json => {:success => true, :new_date => newDate, :html_id => params[:id], :next_date => nextDate.to_formatted_s(:rfc822)}
-	 else
-	    render :json => {:success => false, :html_id => params[:id]}
-	 end
+
+      nextDate = @patient.vaccinate(vaccine_id, dose_no, newDate)
+      if nextDate
+	 render :json => {:success => true, :new_date => newDate, :html_id => params[:dose_no], :next_date => nextDate.to_formatted_s(:rfc822)}
       else
-	 render :json => {:success => false, :html_id => params[:id]}
+	 render :json => {:success => false, :html_id => params[:dose_no]}
       end
    end
 
    private
    # Use callbacks to share common setup or constraints between actions.
    def set_patient
-      @patient = Patient.find(params[:id])
+      begin
+	 @patient = Patient.find(params[:id])
+      rescue
+	 flash[:alert] = "Unauthorized Request"
+	 redirect_to "/"
+      end
    end
 
    # Never trust parameters from the scary internet, only allow the white list through.
    def patient_params
-      params.require(:patient).permit(:first_name, :last_name, :phone_number, :email, :dob)
+      params.require(:patient).permit(:first_name, :last_name, :phone_number, :email, :dob, :doctor_id, :address)
+   end
+
+   def doctorOwnsPatient?
+      if !@patient.isUnderDoctor(current_user.id)
+	 flash[:alert] = "Unauthorized Request"
+	 redirect_to :action => 'index'
+      end
    end
 end

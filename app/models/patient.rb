@@ -38,4 +38,13 @@ class Patient < ActiveRecord::Base
       map
    end
 
+   def isUnderDoctor(doc_id)
+      doctor_id == doc_id
+   end
+
+   def self.getForDoctor(doc_id)
+      Patient.where(:doctor_id => doc_id)
+   end
+
+
 end

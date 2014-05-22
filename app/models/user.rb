@@ -20,4 +20,16 @@ class User < ActiveRecord::Base
      self.role == ROLE_DOCTOR
   end
 
+  def setLastReminderRun
+     update_attribute(:last_reminder_run, Date.today)
+  end
+
+  def patients
+     if is_admin?
+	Patient.all
+     elsif is_doctor?
+	Patient.getForDoctor(id)
+     end
+  end
+
 end
