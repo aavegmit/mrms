@@ -6,6 +6,7 @@ class UsersController < Devise::RegistrationsController
    end
 
    def create
+      @role_options = User.getRoleOptions()
       super
    end
 

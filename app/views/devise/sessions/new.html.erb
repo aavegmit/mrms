@@ -1,17 +1,22 @@
-<h2>Sign in</h2>
+<section class="container">
+<div class="login">
+   <h1>Login to MRMS</h1>
+   <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <p>
+      <%= f.email_field :email, autofocus: true, placeholder: "Email" %></p>
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email, autofocus: true %></div>
+      <p>
+      <%= f.password_field :password, autocomplete: "off", placeholder: "Password" %></p>
 
-  <div><%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "off" %></div>
+      <% if devise_mapping.rememberable? -%>
+	 <p class="remember_me"><%= f.check_box :remember_me %> <%= f.label :remember_me %></p>
+      <% end -%>
 
-  <% if devise_mapping.rememberable? -%>
-    <div><%= f.check_box :remember_me %> <%= f.label :remember_me %></div>
-  <% end -%>
+      <p class="submit"><%= f.submit "Sign in", :class => "splButton-primary" %></p>
+   <% end %>
+</div>
 
-  <div><%= f.submit "Sign in" %></div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+<div class="login-help">
+   <%= render "devise/shared/links" %>
+</div>
+</section>

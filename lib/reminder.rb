@@ -27,7 +27,7 @@ module Reminder
 	 pv = PatientVaccines.select("max(dose_number) as dose_num, #{select_fields}")
 	 		     .joins(:patient)
 	 		     .joins(:vaccine)
-	 		     .where("next_dose_on > ?", Date.today)
+	 		     .where("next_dose_on > ? ", Date.today)
 	 		     .group("#{select_fields}")
 	 		     .to_a
 
