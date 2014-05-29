@@ -11,17 +11,28 @@ class Patient < ActiveRecord::Base
 
    def vaccinate(vaccine_id, doseNum, date)
       vaccine = Vaccine.find(vaccine_id)
+      isValid = false
       if vaccine
 	 pv = PatientVaccines.where(:patient_id => self.id,
 				    :vaccine_id => vaccine_id,
 				    :dose_number => doseNum).first_or_create
 	 if date != '' and vaccine.nextDoseAfter(doseNum.to_i + 1)
 	    nextDate = Date.parse(date) + vaccine.nextDoseAfter(doseNum.to_i + 1).to_i.week
+	    higherDosesCount = PatientVaccines.where("patient_id = ? and vaccine_id = ? and dose_number > ?", 
+						     self.id, vaccine_id, doseNum).count
+	    # This the highest dose, so set this is as valid
+	    isValid = true if higherDosesCount == 0
 	 else
+	    # This is the last dose, so set valid to be false
 	    nextDate = nil
 	 end
+
+	 # Always set the lower doses to be invalid
+	 PatientVaccines.where("patient_id = ? and vaccine_id = ? and dose_number < ?", 
+			       self.id, vaccine_id, doseNum).update_all(:is_next_dose_on_valid => false)
 	 pv.update_attributes({:vaccinated_on => date,
-			       :next_dose_on   => nextDate })
+			      :next_dose_on   => nextDate,
+			      :is_next_dose_on_valid => isValid})
 	 return nextDate
       else
 	 return false

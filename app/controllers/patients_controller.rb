@@ -55,7 +55,7 @@ class PatientsController < ApplicationController
       newDate = params[:value] 
 
       if newDate == "" 
-	 render :json => {:success => false, :html_id => params[:dose_no]}
+	 render :json => {:success => false, :new_date => newDate, :html_id => params[:dose_no]}
 	 return
       end
 
@@ -63,7 +63,7 @@ class PatientsController < ApplicationController
       if nextDate
 	 render :json => {:success => true, :new_date => newDate, :html_id => params[:dose_no], :next_date => nextDate.to_formatted_s(:rfc822)}
       else
-	 render :json => {:success => false, :html_id => params[:dose_no]}
+	 render :json => {:success => false, :new_date => newDate, :html_id => params[:dose_no]}
       end
    end
 

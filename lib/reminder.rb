@@ -24,11 +24,10 @@ module Reminder
       def getDefaulters
 	 select_fields = "patient_id, vaccine_id, patients.first_name, patients.email, patients.phone_number,"
 	 select_fields += "vaccines.name"
-	 pv = PatientVaccines.select("max(dose_number) as dose_num, #{select_fields}")
+	 pv = PatientVaccines.select("dose_number, #{select_fields}")
 	 		     .joins(:patient)
 	 		     .joins(:vaccine)
-	 		     .where("next_dose_on > ? ", Date.today)
-	 		     .group("#{select_fields}")
+	 		     .where("next_dose_on > ? and is_next_dose_on_valid = true", Date.today)
 	 		     .to_a
 
 	 patient_pending_vaccines = Hash.new

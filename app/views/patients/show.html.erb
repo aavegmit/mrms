@@ -70,17 +70,18 @@
                         success: function(data) {
                              if(data.success) {
                                 $("#" + data.html_id).css('display', 'none') ;
-				if(data.new_date == '') {
-                                    $("#" + data.html_id.substr(5)).text('edit').css('display', '') ;
-				} else {
-                                    $("#" + data.html_id.substr(5)).text(data.new_date).css('display', '') ;
-				    $(".notice").text("Next schedule date is: " + data.next_date);
-				}
+                                $("#" + data.html_id.substr(5)).text(data.new_date).css('display', '') ;
+				$(".notice").text("Next schedule date is: " + data.next_date);
                              }
 			     else {
-			         $(".notice").text("");
+			       	 $(".notice").text("");
                                  $("#" + data.html_id).css('display', 'none') ;
-			         $("#" + data.html_id.substr(5)).text('edit').css('display', '') ;
+			         if(data.new_date == ''){
+				     $("#" + data.html_id.substr(5)).text('edit').css('display', '') ;
+				 }
+				 else {
+				     $("#" + data.html_id.substr(5)).text(data.new_date).css('display', '') ;
+				 }
                              }
                         }
 	        });
