@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140528231352) do
+ActiveRecord::Schema.define(version: 20140529230456) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 20140528231352) do
     t.integer  "vaccine_id"
     t.date     "vaccinated_on"
     t.boolean  "is_next_dose_on_valid"
+    t.integer  "doctor_id"
   end
 
   create_table "patients", force: true do |t|
@@ -54,6 +55,7 @@ ActiveRecord::Schema.define(version: 20140528231352) do
     t.datetime "updated_at"
     t.integer  "role",                   default: 10, null: false
     t.date     "last_reminder_run"
+    t.string   "session_token"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
