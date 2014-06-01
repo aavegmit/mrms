@@ -1,47 +1,37 @@
-<%= form_for(@patient) do |f| %>
+<div class="patient-create">
+   <h1></h1>
+   <%= form_for(@patient) do |f| %>
 
-   <% if @patient.errors.any? %>
-      <div id="error_explanation">
-	 <h2><%= pluralize(@patient.errors.count, "error") %> prohibited this patient from being saved:</h2>
+      <% if @patient.errors.any? %>
+	 <div id="error_explanation">
+	    <h2><%= pluralize(@patient.errors.count, "error") %> prohibited this patient from being saved:</h2>
 
-	 <ul>
-	    <% @patient.errors.full_messages.each do |msg| %>
-	       <li><%= msg %></li>
-	    <% end %>
-	 </ul>
-      </div>
+	    <ul>
+	       <% @patient.errors.full_messages.each do |msg| %>
+		  <li><%= msg %></li>
+	       <% end %>
+	    </ul>
+	 </div>
+      <% end %>
+
+      <p>
+      <%= f.text_field :first_name, :placeholder => "First Name" %></p>
+
+      <p>
+      <%= f.text_field :last_name, :placeholder => "Last Name" %></p>
+
+      <p>
+      <%= f.text_field :email, :placeholder => "Email" %></p>
+
+      <p>
+      <%= f.text_field :phone_number, :placeholder => "Phone Number" %></p>
+
+      <p><%= f.label :dob %><br/>
+      <%= f.date_field :dob %></p>
+
+      <p><%= f.label :address %><br/>
+      <%= f.text_area :address %></p>
+
+      <p class="submit"><%= f.submit "Add Patient", :class => "splButton-primary" %></p>
    <% end %>
-
-   <table>
-      <tr>
-	 <td><%= f.label :first_name %></td>
-	 <td><%= f.text_field :first_name %></td>
-      </tr>
-      <tr>
-	 <td><%= f.label :last_name %></td>
-	 <td><%= f.text_field :last_name %></td>
-      </tr>
-      <tr>
-	 <td><%= f.label :email %></td>
-	 <td><%= f.text_field :email %></td>
-      </tr>
-      <tr>
-	 <td><%= f.label :phone_number %></td>
-	 <td><%= f.text_field :phone_number %></td>
-      </tr>
-      <tr>
-	 <td><%= f.label :dob %></td>
-	 <td><%= f.date_field :dob %></td>
-      </tr>
-      <tr>
-	 <td><%= f.label :address %></td>
-	 <td><%= f.text_area :address %></td>
-      </tr>
-      <tr>
-	 <td>
-	    <div class="actions">
-	       <%= f.submit %>
-	    </div>
-	 </td>
-      </tr>
-   <% end %>
+</div>
