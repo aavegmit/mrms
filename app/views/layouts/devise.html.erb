@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Mrms</title>
+      <%= stylesheet_link_tag "jquery.dataTables" %>
+      <%= stylesheet_link_tag params[:controller] %>
+      <%= stylesheet_link_tag "common" %>
+
+      <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+      <%= csrf_meta_tags %>
+   </head>
+   <body>
+      <div>
+	 <h1 class="birthday-message">Vaccination Reminder</h1>
+	 <h1 class="birthday-sub-message">...because you will never retire. Happy 60th Birthday!!</h1>
+      </div>
+      <%= yield %>
+	 <h1 class="birthday-footer-message">Your Medico and Techno kids!!</h1>
+
+   </body>
+</html>

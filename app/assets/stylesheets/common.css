@@ -20,3 +20,21 @@
    margin:auto;
 }
 
+.birthday-message {
+   color: white;
+   font: 40px/48px 'Lucida Grande', Arial, sans-serif;
+   text-align: center;
+   
+}
+
+.birthday-sub-message {
+   color: white;
+   font: 20px/28px 'Lucida Grande', Arial, sans-serif;
+   text-align: center;
+   margin-left: 20%;
+}
+.birthday-footer-message {
+   color: white;
+   font: 20px/28px 'Lucida Grande', Arial, sans-serif;
+   text-align: center;
+}
