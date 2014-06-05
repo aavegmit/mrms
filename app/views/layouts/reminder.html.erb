@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Mrms</title>
+      <%= stylesheet_link_tag "jquery.dataTables" %>
+      <%= stylesheet_link_tag "common" %>
+      <%= stylesheet_link_tag params[:controller] %>
+
+      <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+      <%= csrf_meta_tags %>
+   </head>
+   <body>
+      <%= render 'layouts/header' %>
+      <%= yield %>
+
+   </body>
+</html>

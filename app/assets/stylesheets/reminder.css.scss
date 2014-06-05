@@ -1,3 +1,18 @@
-// Place all the styles related to the reminder controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+#reminders-table {
+   width:100%;
+   color: blue;
+   border: 1px solid black;
+   border-collapse: collapse;
+}
+
+.reminders-name-tr {
+   border-bottom: 1px solid black;
+}
+.reminders-name-td {
+   text-align: center;
+}
+
+.reminders-sub-table {
+   border-collapse: collapse;
+   width:100%;
+}

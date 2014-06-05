@@ -21,6 +21,24 @@ module Reminder
 	 ret
       end
 
+      def getFutureReminders(doctor_id)
+	 select_fields = "patient_id, next_dose_on, patients.first_name as first_name, patients.last_name as last_name,"
+	 select_fields += "vaccines.name as vaccine_name"
+	 pv = PatientVaccines.select("dose_number, #{select_fields}")
+	 		     .joins(:patient)
+	 		     .joins(:vaccine)
+	 		     .where("next_dose_on > ? and is_next_dose_on_valid = true and patient_vaccines.doctor_id = ?", Date.today, doctor_id)
+	 		     .to_a
+
+	 patient_pending_vaccines = Hash.new
+	 pv.each do |item|
+	    patient_pending_vaccines[item.patient_id] = Array.new if patient_pending_vaccines[item.patient_id].nil?
+	    patient_pending_vaccines[item.patient_id].push(item)
+	 end
+
+	 return patient_pending_vaccines 
+      end
+
       def getDefaulters(doctor_id)
 	 select_fields = "patient_id, vaccine_id, patients.first_name, patients.email, patients.phone_number,"
 	 select_fields += "vaccines.name"

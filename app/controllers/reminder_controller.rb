@@ -1,7 +1,7 @@
 class ReminderController < ApplicationController
-   before_filter :authenticate_user!, :except => ["getSMSReminders"]
+   before_filter :authenticate_user!
    include ::Reminder
    def index
-      Reminder.sendEmailReminders()
+      @patient_vaccines = Reminder.getFutureReminders(current_user.id)
    end
 end
