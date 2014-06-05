@@ -1,5 +1,5 @@
-<div class="patients-container">
-   <table id="reminders-table">
+<div class="reminderscontainer">
+   <table class="reminders-table">
       <% @patient_vaccines.each do |pid, pvs| %>
 	 <tr class="reminders-name-tr">
 	    <td class="reminders-name-td"><%= pvs[0][:first_name]%> <%= pvs[0][:last_name] %></td>
