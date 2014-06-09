@@ -45,7 +45,7 @@ module Reminder
 	 pv = PatientVaccines.select("dose_number, #{select_fields}")
 	 		     .joins(:patient)
 	 		     .joins(:vaccine)
-	 		     .where("next_dose_on > ? and is_next_dose_on_valid = true and patient_vaccines.doctor_id = ?", Date.today, doctor_id)
+	 		     .where("next_dose_on = ? and is_next_dose_on_valid = true and patient_vaccines.doctor_id = ?", Date.today, doctor_id)
 	 		     .to_a
 
 	 patient_pending_vaccines = Hash.new

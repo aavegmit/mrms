@@ -1,4 +1,11 @@
 <div class="reminderscontainer">
+
+   <table class="reminders-table">
+      <th>Name</th>
+      <th>Vaccine</th>
+      <th>Dose Number</th>
+      <th>Scheduled Date</th>
+   </table>
    <table class="reminders-table">
       <% @patient_vaccines.each do |pid, pvs| %>
 	 <tr class="reminders-name-tr">
@@ -8,6 +15,7 @@
 		  <% pvs.each do |pv| %>
 		     <tr>
 			<td><%= pv[:vaccine_name] %></td>
+			<td><%= pv[:dose_number] + 1 %></td>
 			<td><%= pv[:next_dose_on].strftime("%d %b %y") %></td>
 		     </tr>
 		  <% end %>
