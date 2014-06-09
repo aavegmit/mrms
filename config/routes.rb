@@ -9,6 +9,11 @@ Mrms::Application.routes.draw do
      end
   end
 
+  resources :welcome do
+     collection do
+	get 'upload'
+     end
+  end
   resources :reminder do
      collection do
 	get 'index'

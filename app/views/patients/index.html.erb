@@ -22,7 +22,13 @@
 	       <td><%= patient.first_name %> <%= patient.last_name %></td>
 	       <td><%= patient.email %></td> 
 	       <td><%= patient.phone_number %></td> 
-	       <td><%= distance_of_time_in_words(patient.dob, Time.now) %></td>
+	       <td>
+		  <% if patient.dob.nil? %>
+		     Unknown
+		  <% else %>
+		     <%= distance_of_time_in_words(patient.dob, Time.now) %>
+		  <% end %>
+	       </td>
 	       <td><%= link_to 'Vaccinations', patient %> 
 		  <%= link_to 'Edit', edit_patient_path(patient) %> 
 		  <%= link_to 'Destroy', patient, method: :delete, data: { confirm: 'Are you sure?' } %></td>
