@@ -57,6 +57,19 @@ module Reminder
 	 return patient_pending_vaccines 
       end
 
+      def getAllDueReminders(patient_id)
+	 select_fields = "patient_id, next_dose_on, patients.first_name as first_name, patients.last_name as last_name,"
+	 select_fields += "vaccines.name as vaccine_name"
+	 pv = PatientVaccines.select("dose_number, #{select_fields}")
+	 		     .joins(:patient)
+	 		     .joins(:vaccine)
+	 		     .where("is_next_dose_on_valid = true and patient_vaccines.patient_id = ?",  patient_id)
+			     .order("next_dose_on ASC")
+	 		     .to_a
+
+	 return pv
+      end
+
       private
       def getSMSText(pvs)
 	    vaccine_list = ''

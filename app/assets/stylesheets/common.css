@@ -223,3 +223,37 @@ html {
 .lt-ie9 input[type=text], .lt-ie9 input[type=password] {
   line-height: 34px;
 }
+
+.patient-due-dates-div {
+   width:70%;
+   margin-top:5%;
+}
+
+.patient-due-dates-div h1 {
+   background-color: #3ccdfa;
+   color: white;
+   width:100%;
+   margin:0px;
+   font: 20px/28px 'Lucida Grande', Arial, sans-serif;
+   text-align: center;
+}
+
+#patient-due-dates-table{
+   color: blue;
+   width:100%;
+   background-color:white;
+}
+#patient-due-dates-table tr{
+   color: blue;
+}
+#patient-due-dates-table td{
+   color: blue;
+   width: 15%;
+   padding-left:5%;
+}
+#patient-due-dates-table th{
+   color: blue;
+   text-align: left;
+   padding-left:5%;
+   
+}

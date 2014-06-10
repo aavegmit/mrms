@@ -11,6 +11,7 @@ class PatientsController < ApplicationController
       @vaccines = Vaccine.all
       @maxDoses = Vaccine.maxDoses
       @vaccinesMap = @patient.vaccinesMap
+      @dueDates = @patient.dueDates
    end
 
    def edit

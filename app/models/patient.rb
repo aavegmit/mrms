@@ -1,4 +1,5 @@
 class Patient < ActiveRecord::Base
+   include ::Reminder
    validates :first_name, :presence => true
   # validates :last_name, :presence => true
   # validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
@@ -15,6 +16,10 @@ class Patient < ActiveRecord::Base
 
    def cleanupVaccinations
       PatientVaccines.where(:patient_id => self.id).destroy_all
+   end
+
+   def dueDates
+      Reminder.getAllDueReminders(self.id)
    end
 
    def vaccinate(vaccine_id, doseNum, date)
