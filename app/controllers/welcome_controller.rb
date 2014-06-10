@@ -41,7 +41,7 @@ class WelcomeController < ApplicationController
       @csv.each do |row|
 	 patient = Hash.new
 	 patient[:doctor_id] = current_user.id
-	 patient[:rcn] = row[2] unless row[2].nil?
+	 patient[:rcn] = row[2].to_i unless row[2].nil?
 	 patient[:first_name] = row[3]
 	 patient[:last_name] = row[4]
 	 patient[:phone_number] = row[7] 

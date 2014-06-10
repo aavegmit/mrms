@@ -35,6 +35,11 @@ class Vaccine < ActiveRecord::Base
       Vaccine.maximum(:no_of_doses)
    end
 
+   def self.getAgeBasedVaccines
+      ageVacc = Vaccine.select(:id).where("doses_gaps like ?", 'A%')
+      ageVacc.map {|v| v.id}
+   end
+
    private
    def doses_gaps_format
       gaps = self.doses_gaps.split(GAP_DELIM)

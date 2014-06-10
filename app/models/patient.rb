@@ -4,6 +4,14 @@ class Patient < ActiveRecord::Base
   # validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
 
    after_destroy :cleanupVaccinations
+   after_create :addAgeBasedVaccines
+
+   def addAgeBasedVaccines
+      v_ids = Vaccine.getAgeBasedVaccines
+      v_ids.each do |v_id|
+	 self.vaccinate(v_id, "0", self.dob.strftime("%d-%m-%Y")) unless self.dob.nil?
+      end
+   end
 
    def cleanupVaccinations
       PatientVaccines.where(:patient_id => self.id).destroy_all
