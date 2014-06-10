@@ -7,6 +7,7 @@
       <thead>
 	 <tr>
 	    <th>Id</th>
+	    <th>RCN</th>
 	    <th>Name</th>
 	    <th>Email</th>
 	    <th>Phone</th>
@@ -19,6 +20,13 @@
 	 <% @patients.each do |patient| %>
 	    <tr>
 	       <td><%= patient.id %></td>
+	       <td>
+		  <% if patient.rcn == 0 %>
+		     N/A
+		  <% else %>
+		     <%= patient.rcn %>
+		  <% end %>
+	       </td>
 	       <td><%= patient.first_name %> <%= patient.last_name %></td>
 	       <td><%= patient.email %></td> 
 	       <td><%= patient.phone_number %></td> 

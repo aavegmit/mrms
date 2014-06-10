@@ -34,6 +34,33 @@ class WelcomeController < ApplicationController
       end
    end
 
+   def uploadInfluenza
+      csv_text = File.read('./lib/input2.csv')
+      inf_id = Vaccine.find_by_name("Influenza").id
+      @csv = CSV.parse(csv_text, :headers => false)
+      @csv.each do |row|
+	 patient = Hash.new
+	 patient[:doctor_id] = current_user.id
+	 patient[:rcn] = row[2] unless row[2].nil?
+	 patient[:first_name] = row[3]
+	 patient[:last_name] = row[4]
+	 patient[:phone_number] = row[7] 
+	 if row[6].nil?
+	    patient[:dob] = Date.today - row[5].to_i.years unless row[5].nil?
+	 else
+	    patient[:dob] = getDDMMdate(row[6]) 
+	 end
+	 unless row[3].nil?
+	    @newPatient = Patient.create!(patient)
+	    @newPatient.vaccinate(inf_id,2, getDDMMdate(row[8])) unless getDDMMdate(row[8]).nil?
+	    @newPatient.vaccinate(inf_id,3, getDDMMdate(row[9])) unless getDDMMdate(row[9]).nil?
+	    @newPatient.vaccinate(inf_id,4, getDDMMdate(row[10])) unless getDDMMdate(row[10]).nil?
+	    @newPatient.vaccinate(inf_id,5, getDDMMdate(row[11])) unless getDDMMdate(row[11]).nil?
+	    @newPatient.vaccinate(inf_id,6, getDDMMdate(row[12])) unless getDDMMdate(row[12]).nil?
+	 end
+      end
+   end
+
    private
    def getDate(dt)
       dob = dt.split("/") 
@@ -50,7 +77,9 @@ class WelcomeController < ApplicationController
    end
 
    def getDDMMdate(dt)
+      return nil if dt.nil?
       dob = dt.split("/") 
+      return nil if dob.size != 3
       if dob[2].size == 2
 	 if dob[2].to_i > 20
 	    newDob = dob[1] + "/" + dob[0] + "/19" + dob[2]
