@@ -1,27 +1,23 @@
 <div class="reminderscontainer">
+   <div class="patient-due-dates-div">
 
-   <table class="reminders-table">
-      <th>Name</th>
-      <th>Vaccine</th>
-      <th>Dose Number</th>
-      <th>Scheduled Date</th>
-   </table>
-   <table class="reminders-table">
-      <% @patient_vaccines.each do |pid, pvs| %>
-	 <tr class="reminders-name-tr">
-	    <td class="reminders-name-td"><%= pvs[0][:first_name]%> <%= pvs[0][:last_name] %></td>
-	    <td>
-	       <table class="reminders-sub-table">
-		  <% pvs.each do |pv| %>
-		     <tr>
-			<td><%= pv[:vaccine_name] %></td>
-			<td><%= pv[:dose_number] + 1 %></td>
-			<td><%= pv[:next_dose_on].strftime("%d %b %y") %></td>
-		     </tr>
-		  <% end %>
-	       </table>
-	    </td>
-	 </tr>
-      <% end %>
-   </table>
+      <h1>Upcoming Reminders</h1>
+      <table id="patient-due-dates-table">
+	 <thead>
+	    <th>Name</th>
+	    <th>Vaccine</th>
+	    <th>Dose Number</th>
+	    <th>Scheduled Date</th>
+	 </thead>
+
+	 <% @patient_vaccines.each do |pv| %>
+	    <tr>
+	       <td><%= pv[:first_name] %> <%= pv[:last_name] %></td>
+	       <td><%= pv[:vaccine_name] %></td>
+	       <td><%= pv[:dose_number] + 1 %></td>
+	       <td><%= pv[:next_dose_on].strftime("%d %b %y") %></td>
+	    </tr>
+	 <% end %>
+      </table>
+   </div>
 </div>

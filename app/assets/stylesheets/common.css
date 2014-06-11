@@ -226,7 +226,7 @@ html {
 
 .patient-due-dates-div {
    width:70%;
-   margin-top:5%;
+   display:inline;
 }
 
 .patient-due-dates-div h1 {
@@ -236,6 +236,7 @@ html {
    margin:0px;
    font: 20px/28px 'Lucida Grande', Arial, sans-serif;
    text-align: center;
+   margin-top:1%;
 }
 
 #patient-due-dates-table{

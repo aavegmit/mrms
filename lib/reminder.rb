@@ -28,15 +28,10 @@ module Reminder
 	 		     .joins(:patient)
 	 		     .joins(:vaccine)
 	 		     .where("next_dose_on > ? and is_next_dose_on_valid = true and patient_vaccines.doctor_id = ?", Date.today, doctor_id)
+			     .order("next_dose_on ASC")
 	 		     .to_a
 
-	 patient_pending_vaccines = Hash.new
-	 pv.each do |item|
-	    patient_pending_vaccines[item.patient_id] = Array.new if patient_pending_vaccines[item.patient_id].nil?
-	    patient_pending_vaccines[item.patient_id].push(item)
-	 end
-
-	 return patient_pending_vaccines 
+	 return pv
       end
 
       def getDefaulters(doctor_id)
