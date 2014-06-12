@@ -14,27 +14,43 @@
 	 </div>
       <% end %>
 
-      <p>
-      <%= f.text_field :first_name, :placeholder => "First Name" %></p>
+      <table id="patient-create-table">
+	 <tr>
+	    <td><p>
+	       <%= f.text_field :first_name, :placeholder => "First Name" %></p></td>
 
-      <p>
-      <%= f.text_field :last_name, :placeholder => "Last Name" %></p>
+	    <td><p>
+	       <%= f.text_field :last_name, :placeholder => "Last Name" %></p></td>
+	 </tr>
+	 <tr>
+	    <td><p>
+	       <%= f.text_field :rcn, :placeholder => "RCN" %></p></td>
 
-      <p>
-      <%= f.text_field :rcn, :placeholder => "RCN" %></p>
+	    <td><p>
+	       <%= f.text_field :fathers_name, :placeholder => "Fathers Name" %></p></td>
+	 </tr>
+	 <tr>
+	    <td><p>
+	       <%= f.text_field :email, :placeholder => "Email (optional)" %></p></td>
 
-      <p>
-      <%= f.text_field :email, :placeholder => "Email" %></p>
+	    <td><p>
+	       <%= f.text_field :phone_number, :placeholder => "Phone Number" %></p></td>
+	 </tr>
+	 <tr>
+	    <td><p><%= f.label :dob %></p></td>
+	    <td><p><%= f.date_field :dob %></p></td>
+	 </tr>
+	 <tr>
+	    <td><p><%= f.label :address %></p></td>
+	    <td><p><%= f.text_area :address %></p>
+	 </tr>
+	 <tr>
+	    <td></td>
+	    <td>
+	       <p class="submit"><%= f.submit "Add Patient", :class => "splButton-primary" %></p>
+	    </td>
+	 </tr>
+      </table>
 
-      <p>
-      <%= f.text_field :phone_number, :placeholder => "Phone Number" %></p>
-
-      <p><%= f.label :dob %><br/>
-      <%= f.date_field :dob %></p>
-
-      <p><%= f.label :address %><br/>
-      <%= f.text_area :address %></p>
-
-      <p class="submit"><%= f.submit "Add Patient", :class => "splButton-primary" %></p>
    <% end %>
 </div>

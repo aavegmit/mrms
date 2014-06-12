@@ -70,9 +70,9 @@ html {
   position: relative;
   margin: 0 auto;
   padding: 20px 20px 20px;
-  width: 40%;
   background: white;
   border-radius: 3px;
+  display: block;
   -webkit-box-shadow: 0 0 200px rgba(255, 255, 255, 0.5), 0 1px 2px rgba(0, 0, 0, 0.3);
   box-shadow: 0 0 200px rgba(255, 255, 255, 0.5), 0 1px 2px rgba(0, 0, 0, 0.3);
 }
@@ -106,7 +106,9 @@ html {
   box-shadow: 0 1px whitesmoke;
 }
 .patient-create p {
-  margin: 20px 0 0;
+  margin: 20px 10px 0;
+  width:100%;
+  display: inline;
 }
 .patient-create p:first-child {
   margin-top: 0;
@@ -258,3 +260,10 @@ html {
    padding-left:5%;
    
 }
+
+#patient-create-table {
+   margin-right: 50%;
+   margin-left: 50%;
+   margin: 0 auto;
+}
+
