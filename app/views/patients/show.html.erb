@@ -51,12 +51,16 @@
 	    <th>Vaccine</th>
 	    <th>Dose Number</th>
 	    <th>Due on</th>
+	    <th>CatchUp Date</th>
+	    <th>Reminder Sent on</th>
 	 </thead>
 	 <% @dueDates.each do |pv| %>
 	    <tr>
 	       <td><%= pv[:vaccine_name] %></td>
 	       <td><%= pv[:dose_number] + 1 %></td>
 	       <td><%= pv[:next_dose_on].strftime("%d %b %y") %></td>
+	       <td><%= pv[:valid_until].strftime("%d %b %y") unless pv[:valid_until].nil? %></td>
+	       <td><%= pv[:last_reminder_on].strftime("%d %b %y") unless pv[:last_reminder_on].nil? %></td>
 	    </tr>
 	 <% end %>
       </table>

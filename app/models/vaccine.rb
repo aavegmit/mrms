@@ -6,12 +6,21 @@ class Vaccine < ActiveRecord::Base
 
    GAP_DELIM = "-"
 
+   VACCINE_MAP = {
+      "DTP" => DTPVaccine,
+      "Hib" => HIBVaccine
+   }
+
    def destroyPatientVaccinations
       PatientVaccines.where(:vaccine_id => self.id).destroy_all
    end
 
    # After how may weeks would you get "doseNum"
-   def nextDoseAfter(doseNum)
+   def nextDoseAfter(doseNum, age=nil)
+  #    if !getVaccine(self.name).nil?
+  #       return getVaccine(self.name).nextDoseAfter(doseNum, age)
+  #    end
+
       doses = self.doses_gaps.split(GAP_DELIM)
       return nil if doseNum <= 0
 
@@ -31,6 +40,10 @@ class Vaccine < ActiveRecord::Base
       end
    end
 
+   def getCatchupInWeeks
+      self.catchup_in_weeks
+   end
+
    def self.maxDoses
       Vaccine.maximum(:no_of_doses)
    end
@@ -41,6 +54,11 @@ class Vaccine < ActiveRecord::Base
    end
 
    private
+
+   def getVaccine(name)
+      VACCINE_MAP[name]
+   end
+
    def doses_gaps_format
       gaps = self.doses_gaps.split(GAP_DELIM)
       if gaps[0] == 'R'

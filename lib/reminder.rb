@@ -27,7 +27,7 @@ module Reminder
 	 pv = PatientVaccines.select("dose_number, #{select_fields}")
 	 		     .joins(:patient)
 	 		     .joins(:vaccine)
-	 		     .where("next_dose_on > ? and is_next_dose_on_valid = true and patient_vaccines.doctor_id = ?", Date.today, doctor_id)
+	 		     .where("is_next_dose_on_valid = true and patient_vaccines.doctor_id = ? and (valid_until > ? or valid_until is null)", doctor_id, Date.today)
 			     .order("next_dose_on ASC")
 	 		     .to_a
 
@@ -54,11 +54,11 @@ module Reminder
 
       def getAllDueReminders(patient_id)
 	 select_fields = "patient_id, next_dose_on, patients.first_name as first_name, patients.last_name as last_name,"
-	 select_fields += "vaccines.name as vaccine_name"
+	 select_fields += "vaccines.name as vaccine_name, valid_until, last_reminder_on"
 	 pv = PatientVaccines.select("dose_number, #{select_fields}")
 	 		     .joins(:patient)
 	 		     .joins(:vaccine)
-	 		     .where("is_next_dose_on_valid = true and patient_vaccines.patient_id = ?",  patient_id)
+	 		     .where("is_next_dose_on_valid = true and patient_vaccines.patient_id = ? and (valid_until > ? or valid_until is null)",  patient_id, Date.today)
 			     .order("next_dose_on ASC")
 	 		     .to_a
 

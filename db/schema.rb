@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140611220732) do
+ActiveRecord::Schema.define(version: 20140612032221) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,8 @@ ActiveRecord::Schema.define(version: 20140611220732) do
     t.date     "vaccinated_on"
     t.boolean  "is_next_dose_on_valid"
     t.integer  "doctor_id"
+    t.date     "valid_until"
+    t.date     "last_reminder_on"
   end
 
   create_table "patients", force: true do |t|
@@ -69,6 +71,7 @@ ActiveRecord::Schema.define(version: 20140611220732) do
     t.text     "doses_gaps"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "catchup_in_weeks"
   end
 
 end

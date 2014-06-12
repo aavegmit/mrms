@@ -22,6 +22,10 @@ class Patient < ActiveRecord::Base
       Reminder.getAllDueReminders(self.id)
    end
 
+   def ageInMonths
+      (Date.today.mjd - self.dob.mjd)/30
+   end
+
    def vaccinate(vaccine_id, doseNum, date)
       vaccine = Vaccine.find(vaccine_id)
       isValid = false
@@ -30,8 +34,8 @@ class Patient < ActiveRecord::Base
 				    :vaccine_id => vaccine_id,
 				    :doctor_id => self.doctor_id,
 				    :dose_number => doseNum).first_or_create
-	 if date != '' and vaccine.nextDoseAfter(doseNum.to_i + 1)
-	    nextDate = Date.parse(date) + vaccine.nextDoseAfter(doseNum.to_i + 1).to_i.week
+	 if date != '' and vaccine.nextDoseAfter(doseNum.to_i + 1, self.ageInMonths)
+	    nextDate = Date.parse(date) + vaccine.nextDoseAfter(doseNum.to_i + 1, self.ageInMonths).to_i.week
 	    higherDosesCount = PatientVaccines.where("patient_id = ? and vaccine_id = ? and dose_number > ?", 
 						     self.id, vaccine_id, doseNum).count
 	    # This the highest dose, so set this is as valid
@@ -41,12 +45,16 @@ class Patient < ActiveRecord::Base
 	    nextDate = nil
 	 end
 
+	 valid_until = nil
+	 valid_until = self.dob + vaccine.getCatchupInWeeks * 7 unless vaccine.getCatchupInWeeks.nil?
+
 	 # Always set the lower doses to be invalid
 	 PatientVaccines.where("patient_id = ? and vaccine_id = ? and dose_number < ?", 
 			       self.id, vaccine_id, doseNum).update_all(:is_next_dose_on_valid => false)
 	 pv.update_attributes({:vaccinated_on => date,
 			      :next_dose_on   => nextDate,
-			      :is_next_dose_on_valid => isValid})
+			      :is_next_dose_on_valid => isValid,
+	                      :valid_until => valid_until})
 	 return nextDate
       else
 	 return false
