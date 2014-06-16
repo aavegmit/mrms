@@ -1,4 +1,17 @@
 class HIBVaccine
+
+#   def self.nextDoseDate(date, doseNum, age)
+#      if(doseNum == 1)
+#	 case age
+#	 when 0..6
+#	    return (Date.parse(date) + nextDoseAfter(doseNum, age).to_i.week)
+#	 else
+#	    return (Date.today + nextDoseAfter(doseNum, age).to_i.week)
+#	 end
+#      else
+#	 return (Date.parse(date) + nextDoseAfter(doseNum, age).to_i.week)
+#      end
+#   end
    
    def self.nextDoseAfter(doseNum, age)
       case age

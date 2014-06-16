@@ -8,18 +8,28 @@ class Vaccine < ActiveRecord::Base
 
    VACCINE_MAP = {
       "DTP" => DTPVaccine,
-      "Hib" => HIBVaccine
+      "Hib" => HIBVaccine,
+      "BCG" => BCGVaccine
    }
 
    def destroyPatientVaccinations
       PatientVaccines.where(:vaccine_id => self.id).destroy_all
    end
 
+   def nextDoseDate(date, doseNum, age=nil)
+#      if !getVaccine(self.name).nil?
+#         return getVaccine(self.name).nextDoseDate(date,doseNum, age)
+#      end
+
+      return nil if nextDoseAfter(doseNum, age).nil?
+      return (Date.parse(date) + nextDoseAfter(doseNum, age).to_i.week)
+   end
+
    # After how may weeks would you get "doseNum"
    def nextDoseAfter(doseNum, age=nil)
-  #    if !getVaccine(self.name).nil?
-  #       return getVaccine(self.name).nextDoseAfter(doseNum, age)
-  #    end
+      if !getVaccine(self.name).nil?
+         return getVaccine(self.name).nextDoseAfter(doseNum, age)
+      end
 
       doses = self.doses_gaps.split(GAP_DELIM)
       return nil if doseNum <= 0

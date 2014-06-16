@@ -37,7 +37,8 @@
 
 #top-header {
    /*background-color: #0ca3d2;*/
-   background-color: #3CCDFA;
+   /*background-color: #3CCDFA;*/
+   background-color: #8088FF;
    padding: 12px 0;
    max-height: 48px;
    width:70%;
@@ -232,7 +233,8 @@ html {
 }
 
 .patient-due-dates-div h1 {
-   background-color: #3ccdfa;
+   /*background-color: #3ccdfa;*/
+   background-color: #8088FF;
    color: white;
    width:100%;
    margin:0px;

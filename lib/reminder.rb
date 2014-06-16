@@ -27,7 +27,7 @@ module Reminder
 	 pv = PatientVaccines.select("dose_number, #{select_fields}")
 	 		     .joins(:patient)
 	 		     .joins(:vaccine)
-	 		     .where("is_next_dose_on_valid = true and patient_vaccines.doctor_id = ? and (valid_until > ? or valid_until is null)", doctor_id, Date.today)
+	 		     .where("is_next_dose_on_valid = true and patient_vaccines.doctor_id = ? and (valid_until >= ? or valid_until is null) and last_reminder_on is null", doctor_id, Date.today)
 			     .order("next_dose_on ASC")
 	 		     .to_a
 
@@ -40,7 +40,7 @@ module Reminder
 	 pv = PatientVaccines.select("dose_number, #{select_fields}")
 	 		     .joins(:patient)
 	 		     .joins(:vaccine)
-	 		     .where("next_dose_on = ? and is_next_dose_on_valid = true and patient_vaccines.doctor_id = ?", Date.today, doctor_id)
+	 		     .where("next_dose_on <= ? and is_next_dose_on_valid = true and patient_vaccines.doctor_id = ? and (valid_until >= ? or valid_until is null ) and last_reminder_on is null", Date.today+7, doctor_id, Date.today)
 	 		     .to_a
 
 	 patient_pending_vaccines = Hash.new
@@ -71,9 +71,8 @@ module Reminder
 	    pvs.each do |v|
 	       vaccine_list += v[:name] + ", "
 	    end
-	    fullMsg = "Dear #{pvs[0][:first_name]}, you are scheduled for the vaccines(s) - #{vaccine_list}"
+	    fullMsg = "Dear Mr. #{pvs[0][:fathers_name]}, This is to remind about next vaccination of your child #{pvs[0][:first_name]} #{pvs[0][:last_name]}. #{vaccine_list} are due at Dr Mahesh Mittal Clinic, 17, K.N.Modi Complex GT Road, Modinagar. Ignore this message if your child has received this dose to avoid unnecessary reminder."
       end
 
    end
-
 end
